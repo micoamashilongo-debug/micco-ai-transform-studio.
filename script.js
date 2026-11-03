@@ -1,77 +1,90 @@
 
-const imageInput = document.getElementById("images");
-const preview = document.getElementById("preview");
-const description = document.getElementById("description");
-const counter = document.getElementById("counter");
-const message = document.getElementById("message");
+const imageUpload = document.getElementById("imageUpload");
+const imagePreview = document.getElementById("imagePreview");
+const instructions = document.getElementById("instructions");
+const charCount = document.getElementById("charCount");
+const styleSelect = document.getElementById("style");
+const generateBtn = document.getElementById("generateBtn");
+const statusMessage = document.getElementById("status");
+const results = document.getElementById("results");
 
 let selectedImages = [];
 
-imageInput.addEventListener("change", function() {
+imageUpload.addEventListener("change", function () {
   const files = Array.from(this.files);
 
   files.forEach(file => {
     if (!file.type.startsWith("image/")) return;
 
-    selectedImages.push({
-      file: file,
-      url: URL.createObjectURL(file)
-    });
+    if (selectedImages.some(item => item.name === file.name && item.size === file.size)) {
+      return;
+    }
+
+    selectedImages.push(file);
   });
 
   renderImages();
-  this.value = "";
+  imageUpload.value = "";
 });
 
 function renderImages() {
-  preview.innerHTML = "";
+  imagePreview.innerHTML = "";
 
-  selectedImages.forEach((item, index) => {
-    const card = document.createElement("div");
-    card.className = "image-card";
+  selectedImages.forEach((file, index) => {
+    const item = document.createElement("div");
+    item.className = "preview-item";
 
-    const img = document.createElement("img");
-    img.src = item.url;
-    img.alt = item.file.name;
+    const image = document.createElement("img");
+    const imageUrl = URL.createObjectURL(file);
+    image.src = imageUrl;
+    image.alt = file.name;
 
-    const remove = document.createElement("button");
-    remove.textContent = "×";
-    remove.type = "button";
-    remove.addEventListener("click", () => {
-      URL.revokeObjectURL(item.url);
+    const removeButton = document.createElement("button");
+    removeButton.type = "button";
+    removeButton.textContent = "×";
+    removeButton.setAttribute("aria-label", "Remove " + file.name);
+
+    removeButton.addEventListener("click", function () {
+      URL.revokeObjectURL(imageUrl);
       selectedImages.splice(index, 1);
       renderImages();
     });
 
-    card.append(img, remove);
-    preview.appendChild(card);
+    item.appendChild(image);
+    item.appendChild(removeButton);
+    imagePreview.appendChild(item);
   });
 }
 
-description.addEventListener("input", function() {
-  counter.textContent = this.value.length + " / 2500";
+instructions.addEventListener("input", function () {
+  charCount.textContent = instructions.value.length;
 });
 
-document.getElementById("prepare").addEventListener("click", function() {
+generateBtn.addEventListener("click", async function () {
+  const prompt = instructions.value.trim();
 
   if (selectedImages.length === 0) {
-    showMessage("Please upload at least one picture.");
+    statusMessage.textContent = "Please upload at least one image.";
     return;
   }
 
-  if (!description.value.trim()) {
-    showMessage("Please describe the transformation you want.");
-    description.focus();
+  if (!prompt) {
+    statusMessage.textContent = "Please describe how you want your image transformed.";
+    instructions.focus();
     return;
   }
 
   const project = {
     projectName: "MICCO AI Transform Studio",
-    dateCreated: new Date().toISOString(),
-    pictures: selectedImages.map(item => item.file.name),
-    instructions: description.value.trim(),
-    style: document.getElementById("style").value,
-    duration: document.getElementById("duration").value
+    createdAt: new Date().toISOString(),
+    imageCount: selectedImages.length,
+    images: selectedImages.map(file => ({
+      name: file.name,
+      type: file.type,
+      size: file.size
+    })),
+    instructions: prompt,
+    style: styleSelect.value
   };
 
   const file = new Blob(
@@ -79,21 +92,34 @@ document.getElementById("prepare").addEventListener("click", function() {
     { type: "application/json" }
   );
 
-  const url = URL.createObjectURL(file);
+  const downloadUrl = URL.createObjectURL(file);
   const link = document.createElement("a");
 
-  link.href = url;
-  link.download = "micco-video-project.json";
+  link.href = downloadUrl;
+  link.download = "micco-image-project.json";
+  document.body.appendChild(link);
   link.click();
+  link.remove();
 
-  URL.revokeObjectURL(url);
+  URL.revokeObjectURL(downloadUrl);
 
-  showMessage(
-    "Your project brief has been prepared and downloaded. Actual AI video generation is not connected yet. We will add the video-generation service separately."
-  );
+  results.innerHTML = `
+    <h2>Project Prepared Successfully</h2>
+    <p>Your image project details have been downloaded.</p>
+    <p>Images selected: ${selectedImages.length}</p>
+    <p>Selected style: ${escapeHTML(styleSelect.value)}</p>
+    <p>AI image generation has not yet been connected.</p>
+  `;
+
+  statusMessage.textContent = "Your project details are ready!";
 });
 
-function showMessage(text) {
-  message.hidden = false;
-  message.textContent = text;
+function escapeHTML(value) {
+  return String(value).replace(/[&<>"']/g, character => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#039;"
+  })[character]);
 }
