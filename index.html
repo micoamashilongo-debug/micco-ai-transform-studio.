@@ -2,73 +2,79 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MICCO AI Transform Studio</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0b1020">
+  <title>MICCO AI Transform Studio</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <header class="topbar">
+    <div class="brand">MICCO<span>.</span></div>
+    <div class="brand-label">AI TRANSFORM STUDIO</div>
+  </header>
 
-<header>
-  <div class="brand">MICCO AI TRANSFORM STUDIO</div>
-  <div class="creator">MICCO</div>
-</header>
+  <main class="container">
+    <section class="hero">
+      <p class="eyebrow">YOUR IDEAS. REIMAGINED.</p>
+      <h1>Transform Your <span>Images</span></h1>
+      <p>Upload a picture, describe your vision, and create something extraordinary.</p>
+    </section>
 
-<main>
-  <section class="hero">
-    <p class="eyebrow">YOUR IDEAS, TRANSFORMED</p>
-    <h1>Imagine it.<br><span>Describe it. Transform it.</span></h1>
-    <p>Upload your pictures, describe your vision and prepare your transformation video project.</p>
-  </section>
+    <section class="studio">
+      <div class="section-heading">
+        <h2>Image Transformation Studio</h2>
+        <p>Start by uploading your picture.</p>
+      </div>
 
-  <section class="studio">
-    <h2>01. Upload your pictures</h2>
-    <p>Select one or multiple pictures to use in your transformation.</p>
+      <label class="upload-area" for="imageUpload">
+        <div class="upload-icon">＋</div>
+        <h3>Upload Your Images</h3>
+        <p>Click here to select one or multiple images</p>
+        <span>PNG, JPG or JPEG</span>
+        <input type="file" id="imageUpload" accept="image/png,image/jpeg,image/webp" multiple hidden>
+      </label>
 
-    <label class="upload" for="images">
-      <span class="upload-icon">＋</span>
-      <strong>Choose pictures or drop them here</strong>
-      <small>PNG, JPG and WEBP supported</small>
-    </label>
-    <input type="file" id="images" accept="image/*" multiple hidden>
+      <div id="imagePreview" class="image-preview"></div>
 
-    <div id="preview" class="preview"></div>
+      <div class="field">
+        <label for="instructions">Describe Your Transformation</label>
+        <textarea id="instructions" maxlength="2500"
+          placeholder="Example: Transform this photograph into a professional cinematic portrait, with dramatic lighting and a beautiful modern background..."></textarea>
+        <div class="counter"><span id="charCount">0</span>/2500</div>
+      </div>
 
-    <h2>02. Describe your transformation</h2>
-    <p>Explain exactly what you want the AI video to show.</p>
-    <textarea id="description" maxlength="2500"
-      placeholder="Example: Show these separate car parts floating together and assembling into a complete Toyota Hilux. Begin with the chassis, then add the body, doors and wheels. Use realistic workshop lighting and smooth camera movements. Finish with the vehicle driving away."></textarea>
+      <div class="field">
+        <label for="style">Choose Image Style</label>
+        <select id="style">
+          <option value="Professional photography">Professional Photography</option>
+          <option value="Realistic and lifelike">Realistic / Lifelike</option>
+          <option value="Cinematic">Cinematic</option>
+          <option value="Futuristic science fiction">Futuristic / Sci-Fi</option>
+          <option value="3D animation">3D Animation</option>
+          <option value="Cartoon and anime">Cartoon / Anime</option>
+          <option value="Luxury product advertisement">Product Advertisement</option>
+        </select>
+      </div>
 
-    <div class="counter" id="counter">0 / 2500</div>
+      <button id="generateBtn" type="button">Prepare My Image Project</button>
 
-    <h2>03. Video settings</h2>
+      <p id="status" class="status" role="status">
+        Your image studio is ready.
+      </p>
 
-    <label for="style">Visual style</label>
-    <select id="style">
-      <option>Commercial</option>
-      <option>Realistic / lifelike</option>
-      <option>Cinematic</option>
-      <option>Futuristic / sci-fi</option>
-      <option>3D animation</option>
-      <option>Product advertisement</option>
-    </select>
+      <section class="results" id="results">
+        <h2>Your Project</h2>
+        <p>Your uploaded images and instructions will be prepared here.</p>
+      </section>
+    </section>
 
-    <label for="duration">Video duration</label>
-    <select id="duration">
-      <option value="5">5 seconds</option>
-      <option value="10">10 seconds</option>
-      <option value="20" selected>20 seconds</option>
-      <option value="30">30 seconds</option>
-    </select>
+    <footer>
+      <p>MICCO AI TRANSFORM STUDIO</p>
+      <span>Created by MICCO | 2026</span>
+    </footer>
+  </main>
 
-    <button id="prepare">Prepare my video project →</button>
-
-    <div id="message" class="message" hidden></div>
-  </section>
-</main>
-
-<footer>© 2026 MICCO AI Transform Studio · Created by MICCO</footer>
-
-<script src="script.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
