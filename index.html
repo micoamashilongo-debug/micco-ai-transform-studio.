@@ -1,0 +1,74 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MICCO AI Transform Studio</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+  <div class="brand">MICCO AI TRANSFORM STUDIO</div>
+  <div class="creator">MICCO</div>
+</header>
+
+<main>
+  <section class="hero">
+    <p class="eyebrow">YOUR IDEAS, TRANSFORMED</p>
+    <h1>Imagine it.<br><span>Describe it. Transform it.</span></h1>
+    <p>Upload your pictures, describe your vision and prepare your transformation video project.</p>
+  </section>
+
+  <section class="studio">
+    <h2>01. Upload your pictures</h2>
+    <p>Select one or multiple pictures to use in your transformation.</p>
+
+    <label class="upload" for="images">
+      <span class="upload-icon">＋</span>
+      <strong>Choose pictures or drop them here</strong>
+      <small>PNG, JPG and WEBP supported</small>
+    </label>
+    <input type="file" id="images" accept="image/*" multiple hidden>
+
+    <div id="preview" class="preview"></div>
+
+    <h2>02. Describe your transformation</h2>
+    <p>Explain exactly what you want the AI video to show.</p>
+    <textarea id="description" maxlength="2500"
+      placeholder="Example: Show these separate car parts floating together and assembling into a complete Toyota Hilux. Begin with the chassis, then add the body, doors and wheels. Use realistic workshop lighting and smooth camera movements. Finish with the vehicle driving away."></textarea>
+
+    <div class="counter" id="counter">0 / 2500</div>
+
+    <h2>03. Video settings</h2>
+
+    <label for="style">Visual style</label>
+    <select id="style">
+      <option>Commercial</option>
+      <option>Realistic / lifelike</option>
+      <option>Cinematic</option>
+      <option>Futuristic / sci-fi</option>
+      <option>3D animation</option>
+      <option>Product advertisement</option>
+    </select>
+
+    <label for="duration">Video duration</label>
+    <select id="duration">
+      <option value="5">5 seconds</option>
+      <option value="10">10 seconds</option>
+      <option value="20" selected>20 seconds</option>
+      <option value="30">30 seconds</option>
+    </select>
+
+    <button id="prepare">Prepare my video project →</button>
+
+    <div id="message" class="message" hidden></div>
+  </section>
+</main>
+
+<footer>© 2026 MICCO AI Transform Studio · Created by MICCO</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
